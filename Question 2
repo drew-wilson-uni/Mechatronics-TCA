@@ -1,0 +1,55 @@
+// Define Pins 
+int potPin = A0; 
+int motorIn1 = 8;   
+int motorIn2 = 7;   
+int enablePin = 9; 
+
+// Tuning Parameters
+int centerValue = 511; // Centre value when the motor will not spin
+int buffer = 100;     // Buffer zone so the 0 value doesnt have to be too exact
+
+void setup() {
+  pinMode(motorIn1, OUTPUT);
+  pinMode(motorIn2, OUTPUT);
+  pinMode(enablePin, OUTPUT);
+  
+  // Baudrate for serial monitor
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Read potentiometer value
+  int potValue = analogRead(potPin);
+  int motorSpeed = 0;
+
+  // Display value in Serial Monitor
+  Serial.print("Potentiometer Value: ");
+  Serial.println(potValue);
+
+  // See if potentiometer is turned left
+  if (potValue < (centerValue - buffer)) {
+    motorSpeed = map(potValue, 0, centerValue - buffer, 255, 0); //The more the potentiometer is turned, the quicker the motor spins
+    
+    // Left turn = anticlockwise motor
+    digitalWrite(motorIn1, HIGH);
+    digitalWrite(motorIn2, LOW);
+    analogWrite(enablePin, motorSpeed);
+  }
+  
+  // See if potentiometer is turned right
+  else if (potValue > (centerValue + buffer)) {
+    motorSpeed = map(potValue, centerValue + buffer, 1023, 0, 255);
+    
+    // Right turn = clockwise motor
+    digitalWrite(motorIn1, LOW);
+    digitalWrite(motorIn2, HIGH);
+    analogWrite(enablePin, motorSpeed);
+  }
+  
+  // If potentiometer is in the buffer then the motor doesn't spin
+  else {
+    digitalWrite(motorIn1, LOW);
+    digitalWrite(motorIn2, LOW);
+    analogWrite(enablePin, 0);
+  }
+}
