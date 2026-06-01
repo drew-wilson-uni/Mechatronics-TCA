@@ -1,0 +1,52 @@
+#include <LiquidCrystal_I2C.h> //required library 
+
+LiquidCrystal_I2C lcd(0x20, 16, 2); //Define LCD rows/ columns
+
+// Define Pins
+int echoPin = 2;
+int trigPin = 3;
+
+// Define ping duration for calcs 
+int duration; 			
+int distance; // Declare variable to store the result (distance)
+			
+void setup()
+{
+	lcd.init(); // initialise LCD
+	lcd.backlight(); // Turn on LCD backlight
+
+    // Define Inputs/ Outputs
+	pinMode(trigPin,OUTPUT); // Set the trigPin as an OUTPUT		
+	pinMode(echoPin, INPUT); // Set the echoPin as an INPUT
+
+	// Baudrate for serial monitor
+	Serial.begin(9600); 									 	
+}
+
+void loop()
+{
+	digitalWrite(trigPin, LOW); 
+    delay(2);
+	digitalWrite(trigPin, HIGH); 
+	delay(10);
+	digitalWrite(trigPin, LOW); // Trigger pin sends out a ping for 10 microseconds 
+  
+	duration = pulseIn(echoPin, HIGH); // Records the time in which the echo pin recieved a signal
+  
+	distance = duration * 0.0344 / 2; // Multiplies by speed of sound and halves to calc distance
+  
+    // Display the distance in serial monitor
+	Serial.print("Distance: ");
+	Serial.print(distance);
+	Serial.println(" cm");
+
+	// Display distance on LCD
+    lcd.clear();
+	lcd.setCursor(0, 0); // Set cursor to top row 
+	lcd.print("Distance :");
+	lcd.setCursor(0,1); // Set cursor to bottom row for value			
+	lcd.print(distance); 
+	lcd.setCursor(4,1); // Move cursor over for units
+	lcd.print("cm");
+  
+}
