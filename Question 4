@@ -1,0 +1,41 @@
+int redled = 11;
+int blueled = 10;
+int greenled = 9;
+
+void setup()
+{
+  pinMode(redled, OUTPUT);
+  pinMode(blueled, OUTPUT);
+  pinMode(greenled, OUTPUT);
+}
+
+void loop()
+{
+  // RED #FF0000 
+  analogWrite(redled, 255), analogWrite(greenled, 0), analogWrite(blueled, 0);
+  delay(1000);
+  // ORANGE #FF7F00
+  analogWrite(redled, 255), analogWrite(greenled, 127), analogWrite(blueled, 0);
+  delay(1000);
+  // YELLOW #FFFF00
+  analogWrite(redled, 255), analogWrite(greenled, 255), analogWrite(blueled, 0);
+  delay(1000);
+  // GREEN #005500
+  analogWrite(redled, 0), analogWrite(greenled, 255), analogWrite(blueled, 0);
+  delay(1000);
+  // TURQUOISE #00CED1
+  analogWrite(redled, 0), analogWrite(greenled, 206), analogWrite(blueled, 209);
+  delay(1000);
+  // BLUE #0000FF
+  analogWrite(redled, 0), analogWrite(greenled, 0), analogWrite(blueled, 255);
+  delay(1000);
+  // INDIGO #4B0082
+  analogWrite(redled, 75), analogWrite(greenled, 0), analogWrite(blueled, 130);
+  delay(1000);
+  // VIOLET #9400D3
+  analogWrite(redled, 148), analogWrite(greenled, 0), analogWrite(blueled, 211);
+  delay(1000);
+  // PINK #FF1493
+  analogWrite(redled, 255), analogWrite(greenled, 20), analogWrite(blueled, 147);
+  delay(1000);
+}
